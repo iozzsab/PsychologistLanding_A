@@ -211,45 +211,20 @@
         .contact-details { margin-top: 2rem; }
         .contact-details p { margin-bottom: 0.5rem; font-weight: 600; }
 
-        .contact-form {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        .contact-form input {
-            padding: 1.2rem;
-            border-radius: 15px;
-            border: none;
-            background: rgba(255, 255, 255, 0.95);
-            font-size: 1rem;
-            color: var(--text-dark);
-            width: 100%;
-        }
-        .contact-form textarea {
-            padding: 1.2rem;
-            border-radius: 15px;
-            border: none;
-            background: rgba(255, 255, 255, 0.95);
-            font-family: inherit;
-            font-size: 1rem;
-            color: var(--text-dark);
-            width: 100%;
-            resize: none;
-        }
-
-        .form-btn {
+        .tg-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1.2rem 2.5rem;
             background-color: var(--secondary-marine);
             color: white;
-            padding: 1.2rem;
+            text-decoration: none;
             border-radius: 20px;
-            border: none;
             font-weight: 700;
-            cursor: pointer;
             font-size: 1.1rem;
             transition: var(--transition);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        .form-btn:hover { background-color: #1ea099; transform: scale(1.02); }
-        .form-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+        .tg-btn:hover { background-color: #1ea099; transform: scale(1.02); }
 
         /* --- Responsive --- */
         @media (max-width: 768px) {
@@ -329,12 +304,9 @@
                     <p>Email: anton.lepskii@gmail.com</p>
                 </div>
             </div>
-            <form id="contact-form" action="https://formspree.io/f/mqeynowg" method="POST" class="contact-form">
-                <input type="text" name="name" placeholder="Ваше имя" required>
-                <input type="tel" name="phone" placeholder="Номер телефона" required>
-                <textarea name="message" rows="4" placeholder="Ваш запрос"></textarea>
-                <button type="submit" class="form-btn" id="submit-btn">Записаться на консультацию</button>
-            </form>
+            <div>
+                <a href="https://t.me/antonlepskii" target="_blank" class="tg-btn">Записаться на консультацию</a>
+            </div>
         </div>
     </section>
 
@@ -385,51 +357,6 @@
 
         backToTop.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
-        // УЛУЧШЕННАЯ ЛОГИКА ОТПРАВКИ ЧЕРЕЗ FETCH (AJAX)
-        const form = document.getElementById('contact-form');
-        const btn = document.getElementById('submit-btn');
-
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault(); // Останавливаем обычную отправку
-            
-            const originalText = btn.innerText;
-            btn.innerText = "Отправка...";
-            btn.disabled = true;
-
-            const formData = new FormData(form);
-
-            try {
-                const response = await fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (response.ok) {
-                    btn.innerText = "Успешно! Переходим в Telegram...";
-                    btn.style.backgroundColor = "#27ae60"; // Зеленый цвет успеха
-                    
-                    form.reset(); // Очищаем форму
-
-                    setTimeout(() => {
-                        window.location.href = "https://t.me/antonlepskii"; 
-                    }, 2000);
-                } else {
-                    throw new Error('Ошибка сети');
-                }
-            } catch (error) {
-                btn.innerText = "Ошибка при отправке";
-                btn.style.backgroundColor = "#e74c3c"; // Красный цвет ошибки
-                
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                    btn.style.backgroundColor = "";
-                }, 3000);
-            }
-        });
     </script>
 </body>
 </html>
